@@ -3,8 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/seek_background.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/seek_thumb.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/fragment_player.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_player.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/music_item.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/play_controller.xml" value="0.3098958333333333" />
       </map>
     </option>
   </component>
