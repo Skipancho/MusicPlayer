@@ -1,5 +1,6 @@
 package com.jjsh.musicplayer.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +11,6 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
@@ -21,6 +21,7 @@ import com.jjsh.musicplayer.databinding.FragmentPlayerBinding
 import com.jjsh.musicplayer.model.MusicDto
 import com.jjsh.musicplayer.model.MusicModel
 import com.jjsh.musicplayer.model.mapper
+import com.jjsh.musicplayer.utils.ImageLoader
 import com.jjsh.musicplayer.viewmodel.PlayerViewModel
 import kotlinx.coroutines.*
 import retrofit2.Call
@@ -33,7 +34,6 @@ class PlayerFragment : Fragment() {
     private lateinit var adapter : MusicAdapter
     private lateinit var player : ExoPlayer
     private val musicList = mutableListOf<MusicModel>()
-    private var isPlaying = false
 
     private val viewModel by lazy{
         ViewModelProvider(this)[PlayerViewModel::class.java]
@@ -111,6 +111,7 @@ class PlayerFragment : Fragment() {
         }
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     private fun initPlayer(){
         context?.let {
             player = ExoPlayer.Builder(it).build()
@@ -126,6 +127,7 @@ class PlayerFragment : Fragment() {
                 )
             }
 
+            @SuppressLint("NotifyDataSetChanged")
             override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
                 super.onMediaItemTransition(mediaItem, reason)
                 val newIndex = mediaItem?.mediaId ?: return
@@ -151,9 +153,7 @@ class PlayerFragment : Fragment() {
         binding.trackTextView.text = curMusic.track
         binding.artistTextView.text = curMusic.artist
 
-        Glide.with(binding.coverImageView.context)
-            .load(curMusic.coverUrl)
-            .into(binding.coverImageView)
+        ImageLoader.loadImage(curMusic.coverUrl){binding.coverImageView.setImageBitmap(it)}
     }
 
     private suspend fun updateSeek(){
@@ -187,7 +187,6 @@ class PlayerFragment : Fragment() {
                 }
 
             })
-
         }catch (e : Exception){
            Toast.makeText(context,"에러",Toast.LENGTH_SHORT).show()
         }

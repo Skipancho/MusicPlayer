@@ -4,9 +4,9 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.jjsh.musicplayer.databinding.MusicItemBinding
 import com.jjsh.musicplayer.model.MusicModel
+import com.jjsh.musicplayer.utils.ImageLoader
 
 class MusicAdapter(
     private var musics  : List<MusicModel>,
@@ -36,9 +36,8 @@ class MusicAdapter(
     ):RecyclerView.ViewHolder(binding.root){
         fun bind(music : MusicModel){
             binding.musicModel = music
-            Glide.with(binding.musicThumb.context)
-                .load(music.coverUrl)
-                .into(binding.musicThumb)
+
+            ImageLoader.loadImage(music.coverUrl){binding.musicThumb.setImageBitmap(it)}
 
             itemView.setBackgroundColor(if (music.isPlaying) Color.GRAY else Color.TRANSPARENT)
 
