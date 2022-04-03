@@ -9,9 +9,13 @@ import com.jjsh.musicplayer.databinding.MusicItemBinding
 import com.jjsh.musicplayer.model.MusicModel
 
 class MusicAdapter(
-    private val musics  : List<MusicModel>,
+    private var musics  : List<MusicModel>,
     private val callback: (MusicModel) -> Unit
 ) :  RecyclerView.Adapter<MusicAdapter.MusicItemViewHolder>(){
+
+    fun submitList(list : List<MusicModel>){
+        musics = list
+    }
 
     override fun getItemCount(): Int = musics.size
 
